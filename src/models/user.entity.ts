@@ -13,7 +13,7 @@ export class User {
     @Column({length: 65})
     email: string
 
-    @Column()
+    @Column({type: 'enum', enum: UserRoles, default: UserRoles.NORMAL })
     role: UserRoles
 
     @Exclude({ toPlainOnly: true })

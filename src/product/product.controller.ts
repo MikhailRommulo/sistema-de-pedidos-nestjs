@@ -15,7 +15,7 @@ import { Controller } from '@nestjs/common';
         }
     }
 })
-@Controller('product')
+@Controller('products')
 export class ProductController {
     constructor(public service: ProductService) {}
 }
