@@ -1,8 +1,9 @@
 import { ProductsOfOrderService } from './../products-of-order/products-of-order.service';
 import { Order } from './../models/order.entity';
 import { Controller, UseInterceptors, Get, Param } from '@nestjs/common';
-import { Crud, ParsedRequest, CrudRequest, CrudRequestInterceptor } from '@nestjsx/crud';
+import { Crud, CrudRequestInterceptor } from '@nestjsx/crud';
 import { OrderService } from './order.service';
+import { ProductsOfOrder } from 'src/models/productsOfOrder.entity';
 
 @Crud({
     model: {
@@ -35,13 +36,15 @@ export class OrderController {
     constructor(
         public service: OrderService,
         private productsOfOrderService: ProductsOfOrderService
-        ) {}
-
+    ) {}
+    
     @UseInterceptors(CrudRequestInterceptor)
     @Get(':id/items')
-    getProductsOfOrder(@ParsedRequest() req: CrudRequest, @Param('id') id: string) {
+    getProductsOfOrder(@Param('id') id: string): Promise<ProductsOfOrder[]> {
         return this.productsOfOrderService.find({where: {
-            order: id
+            order: {
+                id: id
+            }
         }})
     }
 }

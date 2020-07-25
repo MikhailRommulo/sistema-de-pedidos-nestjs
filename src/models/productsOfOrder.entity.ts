@@ -3,11 +3,11 @@ import { Product } from "./product.entity";
 import { Order } from "./order.entity";
 
 @Entity()
-export class ProductsOfOrder {
+export class ProductsOfOrder {    
     @PrimaryGeneratedColumn()
     public readonly id: number;
     
-    @ManyToOne(() => Order, order => order.products, {onDelete: 'CASCADE'})
+    @ManyToOne(() => Order, order => order.products, {onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     order: Order
 
     @ManyToOne(() => Product, {cascade: true, eager: true})
@@ -16,6 +16,6 @@ export class ProductsOfOrder {
     @Column({type: 'integer'})
     amount: number
 
-    @Column({type: 'money', nullable: true})
+    @Column({type: 'real'})
     overall: number
 }

@@ -1,5 +1,5 @@
 import { User } from 'src/models/user.entity';
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, AfterLoad } from "typeorm";
 import { ProductsOfOrder } from './productsOfOrder.entity';
 
 @Entity()
@@ -13,6 +13,14 @@ export class Order {
     @OneToMany(() => ProductsOfOrder, productsOfOrder => productsOfOrder.order, {cascade: ['insert','remove','update'], eager: true})
     products: ProductsOfOrder[]
 
-    @Column({type: 'money', nullable: true})
     total: number
+
+    @AfterLoad()
+    countTotal() {
+        let tot: number = 0
+        this.products.forEach( p => {
+            tot += p.overall
+        })
+        this.total = parseFloat(tot.toFixed(2))
+    }
 }

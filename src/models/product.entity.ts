@@ -8,6 +8,6 @@ export class Product {
     @Column({length: 90})
     description: string
 
-    @Column({type: 'money'})
+    @Column({type: 'real', nullable: true})
     price: number
 }
