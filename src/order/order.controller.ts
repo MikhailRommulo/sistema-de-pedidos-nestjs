@@ -1,6 +1,7 @@
+import { JwtAuthGuard } from './../auth/shared/jwt-auth.guard';
 import { ProductsOfOrderService } from './../products-of-order/products-of-order.service';
 import { Order } from './../models/order.entity';
-import { Controller, UseInterceptors, Get, Param } from '@nestjs/common';
+import { Controller, UseInterceptors, Get, Param, UseGuards } from '@nestjs/common';
 import { Crud, CrudRequestInterceptor } from '@nestjsx/crud';
 import { OrderService } from './order.service';
 import { ProductsOfOrder } from 'src/models/productsOfOrder.entity';
@@ -38,6 +39,7 @@ export class OrderController {
         private productsOfOrderService: ProductsOfOrderService
     ) {}
     
+    @UseGuards(JwtAuthGuard)
     @UseInterceptors(CrudRequestInterceptor)
     @Get(':id/items')
     getProductsOfOrder(@Param('id') id: string): Promise<ProductsOfOrder[]> {

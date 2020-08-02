@@ -1,5 +1,9 @@
 import { User } from 'src/models/user.entity';
-import { Entity, PrimaryGeneratedColumn, ManyToOne, OneToMany, AfterLoad } from "typeorm";
+import { Entity,
+         PrimaryGeneratedColumn,
+         ManyToOne,
+         OneToMany,
+         AfterLoad } from "typeorm";
 import { ProductsOfOrder } from './productsOfOrder.entity';
 
 @Entity()
