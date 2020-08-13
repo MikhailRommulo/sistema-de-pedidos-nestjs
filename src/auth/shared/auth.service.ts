@@ -1,6 +1,6 @@
 import { TokenProps } from './../../models/interfaces/token.interface';
 import { UserService } from './../../user/user.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt'
 import * as bcrypt from 'bcrypt';
 
@@ -32,10 +32,14 @@ export class AuthService {
     }
 
     async refresh(token: string) {
-        const tokenDecode = await this.jwtService.verifyAsync(token) as TokenProps;
-        const payload = { email: tokenDecode.email, sub: tokenDecode.sub };
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+        try {
+            const tokenDecode = await this.jwtService.verifyAsync(token) as TokenProps;
+            const payload = { email: tokenDecode.email, sub: tokenDecode.sub };
+            return {
+                access_token: this.jwtService.sign(payload),
+            };
+        } catch (error) {            
+            throw new HttpException('Token inválido', HttpStatus.BAD_REQUEST); 
+        }   
     }
 }
