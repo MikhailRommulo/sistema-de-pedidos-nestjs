@@ -14,7 +14,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         return user;
       }
 
-      const allowAny = this.reflector.get<string[]>('allow-any', context.getHandler());
+      const allowAny = this.reflector.get<boolean>('allow-any', context.getHandler());
 
       if (allowAny) {
         return true;

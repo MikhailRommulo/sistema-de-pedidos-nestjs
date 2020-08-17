@@ -1,3 +1,4 @@
+import { User } from './../../models/user.entity';
 import { TokenProps } from './../../models/interfaces/token.interface';
 import { UserService } from './../../user/user.service';
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
@@ -24,7 +25,7 @@ export class AuthService {
         return null
     }
 
-    async login(user: any) {
+    async login(user: User) {
         const payload = { email: user.email, sub: user.id };
         return {
             access_token: await this.jwtService.signAsync(payload),
