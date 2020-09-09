@@ -9,14 +9,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthService } from './shared/auth.service';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([User]),
         PassportModule,
-        JwtModule.register({
-            secret: jwtConstants.secret,
-            signOptions: { expiresIn: '1d'},            
+        JwtModule.registerAsync({
+            useFactory: async (configService: ConfigService) => ({
+                secret: configService.get('JWT_SECRET'),
+                signOptions: { expiresIn: '1d'}
+              }),
+              inject: [ConfigService]         
         }),
     ],
     controllers: [
